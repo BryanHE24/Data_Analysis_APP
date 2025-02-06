@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
- 
-  const [selectedFile, setSelectedFile] = useState(null);  // State Variables: selectedFile stores the selected file
-  const [analysisResults, setAnalysisResults] = useState(null);   // analysisResults stores the data analysis results from the backend.
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [analysisResults, setAnalysisResults] = useState(null);
 
-  // handleFileChange updates the selectedFile state when a file is selected.
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-  // handleUpload creates a FormData object to send the file to the backend
+
   const handleUpload = async () => {
     if (!selectedFile) {
       alert('Please select a file');
@@ -19,7 +17,7 @@ function App() {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
-    // uses axios to make a POST request to the /upload endpoint. Handles success and error responses. Calls analyzeData to trigger the analysis after a successful upload.
+
     try {
       const response = await axios.post('http://localhost:5000/upload', formData, {
         headers: {
@@ -36,7 +34,7 @@ function App() {
       alert('Error uploading file');
     }
   };
-  // Makes a GET request to the /analyze/:filename endpoint with the filename returned from the upload. Sets the analysisResults state with the data received from the backend
+
   const analyzeData = async (filename) => {
     try {
         const response = await axios.get(`http://localhost:5000/analyze/${filename}`);
@@ -48,7 +46,7 @@ function App() {
     }
   };
 
-  // JSX: Renders a file input, an upload button, and a section to display the analysis results (initially hidden).
+
   return (
     <div className="App">
       <h1>Data Analysis Dashboard</h1>
@@ -58,7 +56,22 @@ function App() {
       {analysisResults && (
         <div>
           <h2>Analysis Results:</h2>
-          <pre>{JSON.stringify(analysisResults, null, 2)}</pre>
+          <pre>Shape: {JSON.stringify(analysisResults.shape)}</pre>
+          <pre>Columns: {JSON.stringify(analysisResults.columns)}</pre>
+           <h2>Descriptive Statistics:</h2>
+          <pre>{JSON.stringify(analysisResults.description, null, 2)}</pre>
+          <h2>Null Counts:</h2>
+           <pre>{JSON.stringify(analysisResults.null_counts, null, 2)}</pre>
+
+          <h2>Histograms:</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {analysisResults.plots && Object.entries(analysisResults.plots).map(([column, plot], index) => (
+              <div key={index} style={{ width: '300px', margin: '10px' }}>
+                <h3>{column}</h3>
+                <img src={`data:image/png;base64,${plot}`} alt={`Histogram of ${column}`} style={{ maxWidth: '100%' }} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
