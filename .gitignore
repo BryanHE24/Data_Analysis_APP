@@ -1,0 +1,6 @@
+# .gitignore
+node_modules/
+frontend/node_modules/
+backend/uploads/  # Exclude the uploads folder
+*.pyc
+.env  # Exclude environment variable file containing secrets
