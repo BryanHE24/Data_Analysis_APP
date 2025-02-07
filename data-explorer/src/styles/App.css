@@ -68,20 +68,21 @@ body {
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
 }
 
 .visualizations {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 5fr);
   gap: 20px;
 }
 
 .plot img {
   max-width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);
 }
-
+/* Chatbot styles **/
 .ai-assistant {
   flex: 1;
   background-color: white;
@@ -104,9 +105,12 @@ body {
 
 .message {
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 15px;
   border-radius: 8px;
   max-width: 80%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .message.user {
@@ -118,6 +122,13 @@ body {
 .message.ai {
   background-color: #f4f6f9;
   align-self: flex-start;
+}
+
+.message.loading {
+  background-color: #e0e4e8;
+  align-self: center;
+  color: #888;
+  font-style: italic;
 }
 
 .chat-input {
@@ -142,6 +153,7 @@ body {
   border: none;
   border-radius: 5px;
 }
+/**/
 statistical-description {
   margin-top: 30px;
 }
@@ -209,3 +221,4 @@ statistical-description {
   object-fit: contain;
   border-radius: 6px;
 }
+
